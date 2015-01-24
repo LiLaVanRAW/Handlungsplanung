@@ -8,6 +8,8 @@
 #include <list>
 #include <set>
 
+#include "heads.h"
+
 using namespace std;
 
 // Variablen der Start- und Ziel-Welt
@@ -114,6 +116,10 @@ string stack(int wert1, char start, int ziel)
 	del.insert(on(wert1,start));
 
 	//INSERT Possible Abfrage hier
+	{
+		bool poss = possible(add, del, aktuelleEigenschaften);
+		cout << poss;
+	}
 
 	string wort = "";
 	wort += "stack(";
@@ -147,6 +153,10 @@ string unstack(int wert1, int start, char ziel)
 	del.insert(tablefree(ziel));
 
 	//INSERT Possible Abfrage hier
+	{
+		bool poss = possible(add, del, aktuelleEigenschaften);
+		cout << poss;
+	}
 
 	string wort = "";
 	wort += "unstack(";
@@ -420,6 +430,34 @@ void ausgabeStartEig()
 	}
 }
 
+// ueberprueft, ob eine aktion möglich ist
+bool possible(set<string> add, set<string> del, set<string> akt)
+{
+	bool moeglich = false;
+	set<string>::iterator iterator;
+	for(iterator = add.begin(); iterator != add.end(); iterator++)
+	{
+		// falls das Element vorhanden ist
+		// bekommt der iterator den Wert der Stelle
+		// falls nicht den Wert vom Ende
+		if(akt.find(*iterator) != akt.end())
+		{
+			moeglich = true;
+		}
+		else
+			return false;
+	}
+	for(iterator = del.begin(); iterator != del.end(); iterator++)
+	{
+		if(akt.find(*iterator) != akt.end())
+		{
+			return false;
+		}
+	}
+	return moeglich;
+}
+
+
 /*-------------------------------------------------------------*/
 /*--------------------Ende------Methoden-----------------------*/
 /*-------------------------------------------------------------*/
@@ -438,8 +476,14 @@ int main(int argc, char* argv)
 	ausgabeAktEig();
 	printf("\n------------------\n");
 	ausgabeStartEig();
-	
+	printf("\n------------------\n");
 
+	{
+		string name = unstack(1,2,'A');
+		printf("\n------------------\n");
+		cout << name;
+		printf("\n------------------\n");
+	}
 
 	system("pause");
 	return 1;
