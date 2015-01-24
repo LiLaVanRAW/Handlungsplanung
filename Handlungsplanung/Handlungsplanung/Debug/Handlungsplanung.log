@@ -1,13 +1,14 @@
-﻿Der Buildvorgang wurde am 24.01.2015 09:09:26 gestartet.
-     1>Projekt "C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Handlungsplanung\Handlungsplanung.vcxproj" auf Knoten "2", Build Ziel(e).
+﻿Der Buildvorgang wurde am 24.01.2015 14:25:15 gestartet.
+     1>Projekt "C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Handlungsplanung\Handlungsplanung.vcxproj" auf Knoten "2", Build Ziel(e).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt test2301.cpp
-         test2301.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt vorgaben.cpp
+         vorgaben.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.lib" /MACHINE:X86 Debug\test2301.obj
-         Handlungsplanung.vcxproj -> C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.exe
-     1>Die Erstellung des Projekts "C:\Users\Li La\Desktop\AMS\Handlungsplanung\Handlungsplanung\Handlungsplanung\Handlungsplanung.vcxproj" ist abgeschlossen, Build Ziel(e).
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.lib" /MACHINE:X86 Debug\test2301.obj
+         Debug\vorgaben.obj
+         Handlungsplanung.vcxproj -> C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Debug\Handlungsplanung.exe
+     1>Die Erstellung des Projekts "C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Handlungsplanung\Handlungsplanung.vcxproj" ist abgeschlossen, Build Ziel(e).
 
 Build erfolgreich.
 
-Verstrichene Zeit 00:00:02.69
+Verstrichene Zeit 00:00:01.35
