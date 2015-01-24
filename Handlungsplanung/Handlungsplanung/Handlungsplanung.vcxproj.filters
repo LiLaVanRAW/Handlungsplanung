@@ -18,6 +18,9 @@
     <ClCompile Include="test2301.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="vorgaben.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="heads.h">

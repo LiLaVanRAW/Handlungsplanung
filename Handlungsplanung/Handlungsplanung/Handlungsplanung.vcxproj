@@ -63,6 +63,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="test2301.cpp" />
+    <ClCompile Include="vorgaben.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="heads.h" />
