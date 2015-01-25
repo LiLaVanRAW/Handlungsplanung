@@ -1,4 +1,4 @@
-﻿Der Buildvorgang wurde am 24.01.2015 14:25:15 gestartet.
+﻿Der Buildvorgang wurde am 26.01.2015 00:30:52 gestartet.
      1>Projekt "C:\Users\Maxi\Documents\GitHub\Handlungsplanung\Handlungsplanung\Handlungsplanung\Handlungsplanung.vcxproj" auf Knoten "2", Build Ziel(e).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt vorgaben.cpp
@@ -11,4 +11,4 @@
 
 Build erfolgreich.
 
-Verstrichene Zeit 00:00:01.35
+Verstrichene Zeit 00:00:04.12

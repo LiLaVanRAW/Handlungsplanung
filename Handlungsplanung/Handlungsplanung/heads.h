@@ -62,7 +62,7 @@ void ausgabeStartEig();
 bool possible(set<string> add, set<string> del, set<string> akt);
 
 // erstellt und loescht Eigenschaften, die durch Aktion gelten oder nicht mehr gelten
-void fuehreAktionAus(string aktion, set<string> add, set<string> pre);
+void fuehreAktionAus(set<string> add, set<string> pre);
 
 // ueberprueft ob zwei Menge gleich sind oder nicht
 bool gleicheSets(set<string> zustand, set<string> vergleichenderZustand);

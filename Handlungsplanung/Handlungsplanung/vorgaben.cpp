@@ -2,11 +2,126 @@
 #include <string>
 #include <list>
 #include <set>
+#include "heads.h"
 
 using namespace std;
 
-list<string> listeAktionen;
-set<string> aktuell;
+// Variablen der Start- und Ziel-Welt
+set<string> startSituation;
+set<string> zielSituation;
+
+// Variable der aktuellen Eigenschaften
+// verändert sich innerhalb des laufenden Programms mehrmals
+set<string> aktuelleEigenschaften;
+
+	int eingabeStart[8] = {3,2,0,0,1,0,0,0};
+	int eingabeZiel[8] = {3,1,0,0,2,0,0,0};
+
+typedef struct Aktion{
+	string aktion;
+	Aktion* vorgaenger;
+} Aktion;
+
+list<Aktion> aktionen;
+list<Aktion> ablauf;
+bool suche = true;
+bool herstellungAktuellerSituation = false;
+Aktion *betrachtendeAktion = NULL;
+
+void erstelleAktuelleEigenschaften(){
+	aktuelleEigenschaften.clear();
+	ablauf.clear();
+	// aktuelleEigenschaften mit Eigenschaften von Ziel befuellen
+	set<string>::iterator iterator;
+	for(iterator = startSituation.begin(); iterator != startSituation.end(); iterator++){
+		aktuelleEigenschaften.insert(*iterator);
+	}
+	list<Aktion> listezwischenaktionen;
+	Aktion *zwischenaktion = betrachtendeAktion;
+	// Weg finden vom Zwischenziel bis zum Start
+	while(zwischenaktion){
+		listezwischenaktionen.push_front(*zwischenaktion);
+		zwischenaktion = zwischenaktion->vorgaenger;
+	}
+	herstellungAktuellerSituation = true;
+	suche = true;
+	list<Aktion>::iterator ite;
+	for(ite = listezwischenaktionen.begin(); ite != listezwischenaktionen.end(); ite++) 
+		macheAktionAusStringAusfuehrbar(ite->aktion);
+	ablauf = listezwischenaktionen;
+
+	
+}
+
+void plane(){
+	aktuelleEigenschaften.clear();
+	// aktuelleEigenschaften mit Eigenschaften von Ziel befuellen
+	set<string>::iterator iterator;
+	for(iterator = startSituation.begin(); iterator != startSituation.end(); iterator++){
+		aktuelleEigenschaften.insert(*iterator);
+	}
+	suche = true;
+	herstellungAktuellerSituation = false;
+	betrachtendeAktion = NULL;
+
+
+
+
+
+
+	list<Aktion>::iterator ite;
+	int wertSetzen = 1;
+
+	while(!gleicheSets(aktuelleEigenschaften,zielSituation)){
+		// alle Aktionen durchtesten
+
+	suche = true;
+	herstellungAktuellerSituation = false;
+	
+		for(int zaehler1 = 0; zaehler1 < 8; zaehler1++){
+			for(int zaehler2 = 0; zaehler2 < 8; zaehler2++){
+				for(int zaehler3 = 0; zaehler3 < 8; zaehler3++){
+					if(eingabeZiel[zaehler1] != 0 && eingabeZiel[zaehler2] != 0 && eingabeZiel[zaehler3] != 0 && (zaehler1 != zaehler2 != zaehler3)){
+						moveOben(eingabeZiel[zaehler1],eingabeZiel[zaehler2],eingabeZiel[zaehler3]);
+					}
+				}
+			}
+		}
+		for(char buchstabe = 'A'; buchstabe < 'E'; buchstabe++){
+				for(char buchstabe2 = 'A'; buchstabe2 < 'E'; buchstabe2++){
+					for(int i = 0; i < 8; i++){
+						if(eingabeZiel[i] != 0 && buchstabe != buchstabe2){
+							moveUnten(eingabeZiel[i],buchstabe,buchstabe2);
+						}
+					}
+				}
+		}
+
+		for(int zaehler1 = 0; zaehler1 < 8; zaehler1++){
+			for(int zaehler2 = 0; zaehler2 < 8; zaehler2++){
+				for(char buchstabe = 'A'; buchstabe < 'E'; buchstabe++){
+					if(zaehler1 != zaehler2 && eingabeZiel[zaehler1] != 0 && eingabeZiel[zaehler2] != 0){
+						stack(eingabeZiel[zaehler1],buchstabe,eingabeZiel[zaehler2]);
+						unstack(eingabeZiel[zaehler1], eingabeZiel[zaehler2], buchstabe);
+					}
+				
+				}
+			}
+		}
+
+		if(wertSetzen){
+			ite = aktionen.begin();
+			wertSetzen = 0;
+		}
+
+		betrachtendeAktion = &(*(ite));
+		ite++;
+
+		erstelleAktuelleEigenschaften();
+	}
+
+
+}
 
 bool gleicheSets(set<string> zustand, set<string> vergleichenderZustand){
 	if(zustand.size() != vergleichenderZustand.size()) return false;
@@ -18,18 +133,35 @@ bool gleicheSets(set<string> zustand, set<string> vergleichenderZustand){
 	else return true;
 }
 
+int findeUnterschiedeSets(set<string> zustand, set<string> vergleichenderZustand){
+	set<string>::iterator iterator;
+	int unterschied;
+	if(zustand.size() >= vergleichenderZustand.size()){
+		for(iterator = vergleichenderZustand.begin(); iterator != vergleichenderZustand.end(); iterator++){
+			zustand.erase(*iterator);
+		}
+		unterschied = zustand.size();
+	}else{
+		for(iterator = zustand.begin(); iterator != zustand.end(); iterator++){
+			vergleichenderZustand.erase(*iterator);
+		}
+		unterschied = vergleichenderZustand.size();
+	}
+	return unterschied;
+}
+
 // ueberprueft, ob aktion moeglich ist
 bool possible(set<string> add, set<string> del){
 	bool moeglich = false;
 	set<string>::iterator iterator;
 	for(iterator = add.begin(); iterator != add.end(); iterator++){
-		if(aktuell.find(*iterator) != aktuell.end()){
+		if(aktuelleEigenschaften.find(*iterator) != aktuelleEigenschaften.end()){
 			moeglich = true;
 		}
 	}
 
 	for(iterator = del.begin(); iterator != del.end(); iterator++){
-		if(aktuell.find(*iterator) != aktuell.end()){
+		if(aktuelleEigenschaften.find(*iterator) != aktuelleEigenschaften.end()){
 			moeglich = false;
 		}
 	}
@@ -39,17 +171,29 @@ bool possible(set<string> add, set<string> del){
 
 }
 
-void fuehreAktionAus(string aktion, set<string> add, set<string> pre){
+bool possible(set<string> pre){
+	bool moeglich = false;
+	set<string>::iterator iterator;
+	for(iterator = aktuelleEigenschaften.begin(); iterator != aktuelleEigenschaften.end(); iterator++){
+		pre.erase(*iterator);
+	}
+	if(pre.size() == 0){
+		moeglich = true;
+	}
+	return moeglich;
+
+
+}
+
+void fuehreAktionAus(set<string> add, set<string> del){
 	set<string>::iterator iterator;
 	for(iterator = add.begin(); iterator != add.end(); iterator++){
-		aktuell.erase(*iterator);
+		aktuelleEigenschaften.insert(*iterator);
 	}
 
-	for(iterator = pre.begin(); iterator != pre.end(); iterator++){
-		aktuell.insert(*iterator);
+	for(iterator = del.begin(); iterator != del.end(); iterator++){
+		aktuelleEigenschaften.erase(*iterator);
 	}
-
-	// Aktion in Liste mit Aktionen einfuegen
 }
 string on(int wert1, int wert2){
 	string wort = "";
@@ -111,7 +255,7 @@ string moveOben(int wert1, int von, int nach){
 	set<string> add;
 	add.insert(clear(von));
 	add.insert(on(wert1,nach));
-	
+
 	string wort = "";
 	wort += "moveOben(";
 	wort += to_string(wert1);
@@ -120,6 +264,16 @@ string moveOben(int wert1, int von, int nach){
 	wort += ",";
 	wort += to_string(nach);
 	wort += ")";
+	if(suche){
+		if(possible(pre)){
+			if(herstellungAktuellerSituation){
+				fuehreAktionAus(add, del);
+			}else{
+				Aktion neu = {wort,betrachtendeAktion};
+				aktionen.push_back(neu);
+			}
+		}
+	}
 	return wort; 
 }
 
@@ -148,6 +302,18 @@ string stack(int wert1, char start, int ziel){
 	wort += ",";
 	wort += to_string(ziel);
 	wort += ")";
+
+	if(suche){
+		if(possible(pre)){
+			if(herstellungAktuellerSituation){
+				fuehreAktionAus(add, del);
+			}else{
+				Aktion neu = {wort,betrachtendeAktion};
+				aktionen.push_back(neu);
+			}
+		}
+	}
+
 	return wort;
 }
 
@@ -175,6 +341,18 @@ string unstack(int wert1, int start, char ziel){
 	wort += ",";
 	wort += ziel;
 	wort += ")";
+
+	if(suche){
+		if(possible(pre)){
+			if(herstellungAktuellerSituation){
+				fuehreAktionAus(add, del);
+			}else{
+				Aktion neu = {wort,betrachtendeAktion};
+				aktionen.push_back(neu);
+			}
+		}
+	}
+
 	return wort;
 }
 
@@ -201,6 +379,17 @@ string moveUnten(int wert1,char start,char ziel){
 	wort += ",";
 	wort += ziel;
 	wort += ")";
+
+	if(suche){
+		if(possible(pre)){
+			if(herstellungAktuellerSituation){
+				fuehreAktionAus(add, del);
+			}else{
+				Aktion neu = {wort,betrachtendeAktion};
+				aktionen.push_back(neu);
+			}
+		}
+	}
 	return wort;
 }
 
@@ -267,21 +456,87 @@ void macheAktionAusStringAusfuehrbar(string befehl){
 		cout << unstack(wert1,wert2,tisch1);
 	}
 }
+void createEigenschaften(int array[],set<string> &eigenschaften)
+{
+	char platz = 'A';
+	if(array[0] != 0)
+	{
+		eigenschaften.insert(table(array[0]));
+		eigenschaften.insert(clear(array[0]));
+		eigenschaften.insert(on(array[0],platz));
+		if(array[1] != 0)
+		{
+			eigenschaften.erase(clear(array[0]));
+			eigenschaften.insert(on(array[1], array[0]));
+			eigenschaften.insert(clear(array[1]));
+		}
+	}
+	else
+	{
+		eigenschaften.insert(tablefree(platz));
+	}
+	platz++;
+	if(array[2] != 0)
+	{
+		eigenschaften.insert(table(array[2]));
+		eigenschaften.insert(clear(array[2]));
+		eigenschaften.insert(on(array[2],platz));
+
+		if(array[3] != 0)
+		{
+			eigenschaften.erase(clear(array[2]));
+			eigenschaften.insert(on(array[3], array[2]));
+			eigenschaften.insert(clear(array[3]));
+		}
+	}
+	else
+	{
+		eigenschaften.insert(tablefree(platz));
+	}
+	platz++;
+	if(array[4] != 0)
+	{
+		eigenschaften.insert(table(array[4]));
+		eigenschaften.insert(clear(array[4]));
+		eigenschaften.insert(on(array[4],platz));
+
+		if(array[5] != 0)
+		{
+			eigenschaften.erase(clear(array[4]));
+			eigenschaften.insert(on(array[5], array[4]));
+			eigenschaften.insert(clear(array[5]));
+		}
+	}
+	else
+	{
+		eigenschaften.insert(tablefree(platz));
+	}
+	platz++;
+	if(array[6] != 0)
+	{
+		eigenschaften.insert(table(array[6]));
+		eigenschaften.insert(clear(array[6]));
+		eigenschaften.insert(on(array[6],platz));
+
+		if(array[7] != 0)
+		{
+			eigenschaften.erase(clear(array[6]));
+			eigenschaften.insert(clear(array[0]));
+			eigenschaften.insert(on(array[7], array[6]));
+		}
+	}
+	else
+	{
+		eigenschaften.insert(tablefree(platz));
+	}
+}
 
 int main(){
-	aktuell.insert("1");
-	aktuell.insert("2");
-	aktuell.insert("3");
-
-	set<string> add;
-	add.insert("5");
-	add.insert("7");
-	add.insert("8");
-
-	set<string> del;
-	del.insert("5");
-	cout << possible(add,del);
-
+	createEigenschaften(eingabeStart,startSituation);
+	createEigenschaften(eingabeZiel,zielSituation);
+	plane();
+	erstelleAktuelleEigenschaften();
 	getchar();
-	
+
+
 }
