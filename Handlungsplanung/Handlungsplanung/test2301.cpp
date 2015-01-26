@@ -22,7 +22,6 @@ set<string> aktuelleEigenschaften;
 // Aktionsplan
 list<string> listeAktionen;
 
-
 /*-------------------------------------------------------------*/
 /*--------------------Anfang Eigenschaften---------------------*/
 /*-------------------------------------------------------------*/
@@ -456,7 +455,6 @@ bool possible(set<string> add, set<string> del, set<string> akt)
 	}
 	return moeglich;
 }
-
 
 /*-------------------------------------------------------------*/
 /*--------------------Ende------Methoden-----------------------*/
